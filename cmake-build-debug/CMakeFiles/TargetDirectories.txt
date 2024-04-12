@@ -1,0 +1,3 @@
+C:/Users/siemb/CLionProjects/neural-net/cmake-build-debug/CMakeFiles/neural_net.dir
+C:/Users/siemb/CLionProjects/neural-net/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/siemb/CLionProjects/neural-net/cmake-build-debug/CMakeFiles/rebuild_cache.dir
