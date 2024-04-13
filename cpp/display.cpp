@@ -1,7 +1,13 @@
 #include "../header/display.h"
 #include "../header/neuron.h"
 
-display::display(SDL_Renderer &renderer) :  r(renderer){}
+display::display(SDL_Renderer &renderer) :  r(renderer){
+    gFont = TTF_OpenFont("../assets/font.ttf", 24); // Change the path to your font file
+    if (gFont == nullptr) {
+        printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        exit(0);
+    }
+}
 
 //int display::SDL_RenderDrawCircle(SDL_Renderer *renderer, int x, int y, int radius) {
 //    int offsetx, offsety, d;
@@ -89,13 +95,34 @@ int display::SDL_RenderFillCircle(SDL_Renderer * renderer, int x, int y, int rad
     return status;
 }
 
+void display::renderText(const std::string& text, int x, int y) {
+    SDL_Color textColor = {255, 0, 0}; // White color
+    SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, text.c_str(), textColor);
+    if (textSurface == nullptr) {
+        printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+    } else {
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(&r, textSurface);
+        if (texture == nullptr) {
+            printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+        } else {
+            SDL_Rect renderQuad = {x-textSurface->w/2, y-textSurface->h/2, textSurface->w, textSurface->h};
+            SDL_RenderCopy(&r, texture, nullptr, &renderQuad);
+            SDL_DestroyTexture(texture);
+        }
+        SDL_FreeSurface(textSurface);
+    }
+}
+
 void display::drawNet(const std::vector<std::vector<neuron>>& v) {
     SDL_SetRenderDrawColor(&r, 255, 255, 255, 255);
     for(const auto& x : v) {
         for(auto y : x) {
             SDL_RenderFillCircle(&r,y.getX(),y.getY(),30);
+
+            std::ostringstream stream;
+            stream << std::fixed << std::setprecision(2) << y.getValue();
+
+            renderText(stream.str(), y.getX(), y.getY());
         }
     }
 }
-
-

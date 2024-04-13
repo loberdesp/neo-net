@@ -6,13 +6,19 @@
 int main(int argc, char* argv[]) {
 
     //create net with layers
-    net n({3,5,2});
+    net n({2,5,3});
+
 
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
+    }
+
+    if (TTF_Init() == -1) {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+        return false;
     }
 
     // Create window

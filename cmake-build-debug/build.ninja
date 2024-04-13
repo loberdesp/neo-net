@@ -85,9 +85,9 @@ build CMakeFiles/neural_net.dir/cpp/display.cpp.obj: CXX_COMPILER__neural_net_un
 #############################################
 # Link the executable neural_net.exe
 
-build neural_net.exe: CXX_EXECUTABLE_LINKER__neural_net_Debug CMakeFiles/neural_net.dir/main.cpp.obj CMakeFiles/neural_net.dir/cpp/neuron.cpp.obj CMakeFiles/neural_net.dir/cpp/net.cpp.obj CMakeFiles/neural_net.dir/cpp/display.cpp.obj | C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a
+build neural_net.exe: CXX_EXECUTABLE_LINKER__neural_net_Debug CMakeFiles/neural_net.dir/main.cpp.obj CMakeFiles/neural_net.dir/cpp/neuron.cpp.obj CMakeFiles/neural_net.dir/cpp/net.cpp.obj CMakeFiles/neural_net.dir/cpp/display.cpp.obj | C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a C$:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a
   FLAGS = -g
-  LINK_LIBRARIES = -lmingw32  -mwindows  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a  -lwinmm  -limm32  -lsetupapi  -lversion  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = -lmingw32  -mwindows  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a  -lmingw32  -mwindows  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a  -lwinmm  -limm32  -lsetupapi  -lversion  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2main.a  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2.dll.a  C:/SDL2-2.30.2/x86_64-w64-mingw32/lib/libSDL2_ttf.dll.a  -lwinmm  -limm32  -lsetupapi  -lversion  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\neural_net.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
