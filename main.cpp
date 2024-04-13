@@ -5,10 +5,13 @@
 
 int main(int argc, char* argv[]) {
 
-    //create net with layers
-    net n({2,5,3});
+    //create net with layers, define input and output values here but ill work it out better way
+    net n({2,4,4,1});
 
+    n.setNeuronValue(0,0,0.6);
+    n.setNeuronValue(0,1,0.2);
 
+    n.setNeuronDestination(3,0,0.75);
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -51,13 +54,15 @@ int main(int argc, char* argv[]) {
                 quit = true;
             }
         }
+        //update weights of neurons
+        n.calculateWeights();
 
         // Clear the screen (black)
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         // Draw net
-        d.drawNet(n.getNet());
+        d.drawNet(n.getNet(), n.getWeights());
 
         // Update screen
         SDL_RenderPresent(renderer);

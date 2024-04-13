@@ -1,11 +1,7 @@
 #include "../header/neuron.h"
 
-neuron::neuron(int x, int y) : x(x), y(y) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dis(0, 100);
-    int randomInt = dis(gen);
-    value = static_cast<float>(randomInt) / 100.0f;
+neuron::neuron(int x, int y) : x(x), y(y), value(0), error(0), destination(0){
+
 }
 
 int neuron::getX() const {
@@ -18,4 +14,24 @@ int neuron::getY() const {
 
 float neuron::getValue() const {
     return value;
+}
+
+void neuron::setValue(float val) {
+    value = val;
+}
+
+float neuron::getError() const {
+    return error;
+}
+
+void neuron::setError(float e) {
+    error = e;
+}
+
+float neuron::getDest() const {
+    return destination;
+}
+
+void neuron::setDest(float dest) {
+    destination = dest;
 }

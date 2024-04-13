@@ -96,7 +96,7 @@ int display::SDL_RenderFillCircle(SDL_Renderer * renderer, int x, int y, int rad
 }
 
 void display::renderText(const std::string& text, int x, int y) {
-    SDL_Color textColor = {255, 0, 0}; // White color
+    SDL_Color textColor = {0, 0, 0}; // black color
     SDL_Surface* textSurface = TTF_RenderText_Solid(gFont, text.c_str(), textColor);
     if (textSurface == nullptr) {
         printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
@@ -113,15 +113,31 @@ void display::renderText(const std::string& text, int x, int y) {
     }
 }
 
-void display::drawNet(const std::vector<std::vector<neuron>>& v) {
+void display::drawNet(const std::vector<std::vector<neuron>>& v, const std::vector<std::vector<std::vector<float>>>& w) {
+    //draw connections between layers
+    unsigned int size = v.size();
+
+    for(int i=0;i<size-1;i++) {
+        for(int j=0;j<v[i].size();j++) {
+            for(int k=0;k<v[i+1].size();k++) {
+                if(w[i][j][k]>0) {
+                    SDL_SetRenderDrawColor(&r, 0, 255, 0, 255);
+                } else {
+                    SDL_SetRenderDrawColor(&r, 255, 0, 0, 255);
+                }
+                SDL_RenderDrawLine(&r, v[i][j].getX(), v[i][j].getY(), v[i+1][k].getX(), v[i+1][k].getY());
+            }
+        }
+    }
+
     SDL_SetRenderDrawColor(&r, 255, 255, 255, 255);
+
+    //draw neurons
     for(const auto& x : v) {
         for(auto y : x) {
             SDL_RenderFillCircle(&r,y.getX(),y.getY(),30);
-
             std::ostringstream stream;
             stream << std::fixed << std::setprecision(2) << y.getValue();
-
             renderText(stream.str(), y.getX(), y.getY());
         }
     }

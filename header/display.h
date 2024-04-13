@@ -15,7 +15,7 @@ public:
     //static int SDL_RenderDrawCircle(SDL_Renderer *renderer, int x, int y, int radius);
     static int SDL_RenderFillCircle(SDL_Renderer *renderer, int x, int y, int radius);
     void renderText(const std::string &text, int x, int y);
-    void drawNet(const std::vector<std::vector<neuron>>& v);
+    void drawNet(const std::vector<std::vector<neuron>> &v, const std::vector<std::vector<std::vector<float>>>& w);
 };
 
 
