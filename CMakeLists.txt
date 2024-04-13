@@ -19,8 +19,10 @@ add_executable(neural_net main.cpp
         cpp/neuron.cpp
         header/neuron.h
         include.h
-        cpp/render.cpp
-        header/render.h
+        cpp/net.cpp
+        header/net.h
+        header/display.h
+        cpp/display.cpp
 )
 
 #THOSE 4 LINES TOOK ME 4 HOURS TO FIND BECAUSE PROGRAM WOULDN'T WORK WITHOUT THEM -lwinmm -limm32 -lsetupapi -lversion

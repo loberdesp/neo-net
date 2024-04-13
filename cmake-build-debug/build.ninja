@@ -63,8 +63,15 @@ build CMakeFiles/neural_net.dir/cpp/neuron.cpp.obj: CXX_COMPILER__neural_net_uns
   OBJECT_DIR = CMakeFiles\neural_net.dir
   OBJECT_FILE_DIR = CMakeFiles\neural_net.dir\cpp
 
-build CMakeFiles/neural_net.dir/cpp/render.cpp.obj: CXX_COMPILER__neural_net_unscanned_Debug C$:/Users/siemb/CLionProjects/neural-net/cpp/render.cpp || cmake_object_order_depends_target_neural_net
-  DEP_FILE = CMakeFiles\neural_net.dir\cpp\render.cpp.obj.d
+build CMakeFiles/neural_net.dir/cpp/net.cpp.obj: CXX_COMPILER__neural_net_unscanned_Debug C$:/Users/siemb/CLionProjects/neural-net/cpp/net.cpp || cmake_object_order_depends_target_neural_net
+  DEP_FILE = CMakeFiles\neural_net.dir\cpp\net.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -I"C:/Program Files/MinGW/include/SDL2"
+  OBJECT_DIR = CMakeFiles\neural_net.dir
+  OBJECT_FILE_DIR = CMakeFiles\neural_net.dir\cpp
+
+build CMakeFiles/neural_net.dir/cpp/display.cpp.obj: CXX_COMPILER__neural_net_unscanned_Debug C$:/Users/siemb/CLionProjects/neural-net/cpp/display.cpp || cmake_object_order_depends_target_neural_net
+  DEP_FILE = CMakeFiles\neural_net.dir\cpp\display.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -I"C:/Program Files/MinGW/include/SDL2"
   OBJECT_DIR = CMakeFiles\neural_net.dir
@@ -78,7 +85,7 @@ build CMakeFiles/neural_net.dir/cpp/render.cpp.obj: CXX_COMPILER__neural_net_uns
 #############################################
 # Link the executable neural_net.exe
 
-build neural_net.exe: CXX_EXECUTABLE_LINKER__neural_net_Debug CMakeFiles/neural_net.dir/main.cpp.obj CMakeFiles/neural_net.dir/cpp/neuron.cpp.obj CMakeFiles/neural_net.dir/cpp/render.cpp.obj | C$:/Program$ Files/MinGW/lib/libSDL2main.a C$:/Program$ Files/MinGW/lib/libSDL2.a
+build neural_net.exe: CXX_EXECUTABLE_LINKER__neural_net_Debug CMakeFiles/neural_net.dir/main.cpp.obj CMakeFiles/neural_net.dir/cpp/neuron.cpp.obj CMakeFiles/neural_net.dir/cpp/net.cpp.obj CMakeFiles/neural_net.dir/cpp/display.cpp.obj | C$:/Program$ Files/MinGW/lib/libSDL2main.a C$:/Program$ Files/MinGW/lib/libSDL2.a
   FLAGS = -g
   LINK_LIBRARIES = -lmingw32  -mwindows  "C:/Program Files/MinGW/lib/libSDL2main.a"  "C:/Program Files/MinGW/lib/libSDL2.a"  -lwinmm  -limm32  -lsetupapi  -lversion  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\neural_net.dir

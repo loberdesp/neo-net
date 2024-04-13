@@ -1,9 +1,6 @@
 #include "../header/neuron.h"
 
-neuron::neuron() {
-    x = WIN/2;
-    y = WIN/2;
-}
+neuron::neuron(int x, int y) : x(x), y(y) {}
 
 int neuron::getX() const {
     return x;

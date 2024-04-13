@@ -1,13 +1,13 @@
 #include "include.h"
 #include "header/neuron.h"
-#include "header/render.h"
+#include "header/display.h"
+#include "header/net.h"
 
 int main(int argc, char* argv[]) {
 
-    neuron n;
-    n.getX();
+    //create net with layers
+    net n({3,5,2});
 
-    render r;
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Create window
-    SDL_Window* window = SDL_CreateWindow("SDL2 Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN*4/3, WIN, SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow("NeoNet", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIN*4/3, WIN, SDL_WINDOW_SHOWN);
     if (window == nullptr) {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
@@ -28,6 +28,9 @@ int main(int argc, char* argv[]) {
         printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
+
+    //class for drawing things to screen, has permanent access to renderer
+    display d(*renderer);
 
     // Main loop flag
     bool quit = false;
@@ -47,15 +50,8 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        // Draw and fill a rectangle
-//        SDL_Rect rect = { 100, 100, 200, 150 }; // x, y, width, height
-//        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
-//        SDL_RenderFillRect(renderer, &rect);
-
-
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        r.SDL_RenderDrawCircle(renderer,WIN*2/3,WIN/2,20);
-        r.SDL_RenderFillCircle(renderer,WIN*1/3,WIN/2,40);
+        // Draw net
+        d.drawNet(n.getNet());
 
         // Update screen
         SDL_RenderPresent(renderer);
