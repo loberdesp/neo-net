@@ -7,10 +7,12 @@
 class neuron {
 private:
     int x,y;
+    float value;
 public:
     neuron(int x, int y);
     int getX() const;
     int getY() const;
+    float getValue() const;
 };
 
 

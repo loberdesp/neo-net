@@ -9,3 +9,7 @@ int neuron::getX() const {
 int neuron::getY() const {
     return y;
 }
+
+float neuron::getValue() const {
+    return value;
+}
