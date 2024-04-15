@@ -5,10 +5,10 @@
 
 net::net(std::vector<int> l) {
     unsigned int size = l.size();
-    int xpos = WIN*4/3/(size+1);
+    int xpos = WIDTH/2/(size+1);
 
     for(int i=0;i<size;i++) {
-        int ypos = WIN/(l[i]+1);
+        int ypos = WIDTH/2/(l[i]+1);
         std::vector<neuron> tmp;
         for(int j=0;j<l[i];j++) {
             neuron n(xpos*(i+1),ypos*(j+1));
@@ -16,6 +16,7 @@ net::net(std::vector<int> l) {
         }
         neurons.push_back(tmp);
     }
+
 
     for(int i=0;i<size-1;i++) {
         std::vector<std::vector<float>> tmpNeuron;
@@ -36,11 +37,12 @@ net::net(std::vector<int> l) {
 }
 
 float net::activationFuction(float x) {
-    return float(1/(1+std::exp(-x)));
+    return 1/(1+exp(-x));
 }
 
 float net::activationFuctionDerivative(float x) {
-    return float(std::exp(-x)/pow(1+std::exp(-x),2));
+    double sig = activationFuction(x);
+    return sig * (1-sig);
 }
 
 std::vector<std::vector<neuron>> net::getNet() {
@@ -59,58 +61,125 @@ void net::setNeuronDestination(int layer, int neuron, float dest) {
     neurons[layer][neuron].setDest(dest);
 }
 
-void net::calculateWeights() {
+input net::randomInput() {
+    std::mt19937 mt(std::random_device{}());
+    std::uniform_int_distribution<int> dist(0, inputs.size()-1);
 
-    // Use random_device to seed the random number generator
-    std::random_device rd;
-
-    // Use mt19937 engine for random number generation
-    std::mt19937 g(rd());
-
-    // Shuffle the vector so we don't prioritise first neurons, in display neuron values aren't swapping
-    std::shuffle(neurons[0].begin(), neurons[0].end(), g);
-
-    //calculation of neuron weights
-    for(int i=1;i<neurons.size();i++) {
-        for(int j=0;j<neurons[i].size();j++) {
-            float sum = 0;
-            for(int k=0;k<neurons[i-1].size();k++) {
-                sum+=weights[i-1][k][j]*neurons[i-1][k].getValue();
-            }
-
-            neurons[i][j].setValue(activationFuction(sum));
-        }
+    for(auto x : weights) {
+        std::cout << x.size() << std::endl;
     }
+    return inputs[dist(mt)];
 
-    //calculate error for output layer
-    for(auto & i : neurons.back()) {
-        i.setError(i.getValue()-i.getDest());
-    }
-
-    //error calculation for hidden layers
-    for(unsigned int i=neurons.size()-2;i>0;i--) {
-        for(int j=0;j<neurons[i].size();j++) {
-            float eSum = 0;
-            for(int k=0;k<neurons[i+1].size();k++) {
-                eSum+=neurons[i+1][k].getError()*weights[i][j][k];
-            }
-            neurons[i][j].setError(eSum);
-        }
-    }
-
-    //using learning rate and shit
-    for(int i=0;i<neurons.size()-1;i++) {
-        for(int j=0;j<neurons[i].size();j++) {
-            for(int k=0;k<neurons[i+1].size();k++) {
-                weights[i][j][k] -= 0.005f * neurons[i+1][k].getError() * activationFuction(neurons[i+1][k].getValue()) *
-                        activationFuctionDerivative(neurons[i+1][k].getValue());
-            }
-        }
-    }
-
-    std::cout << neurons.back().back().getError() << std::endl;
 }
 
+void net::forwardTrain(input rand) {
+    //calculation of neuron weights
+    for(int i=0;i<neurons.size();i++) {
+        for(int j=0;j<neurons[i].size();j++) {
+            if(i==0) {
+                if(j==0) {
+                    neurons[i][j].setValue(rand.x);
+                } else {
+                    neurons[i][j].setValue(rand.y);
+                }
+            } else {
+                float sum = 0;
+                for(int k=0;k<neurons[i-1].size();k++) {
+                    sum+=weights[i-1][k][j]*neurons[i-1][k].getValue();
+                }
+                neurons[i][j].setValue(activationFuction(sum));
+            }
+        }
+    }
+}
 
+void net::backProp(input rand) {
+    //error calculation for hidden layers
+    for(unsigned int i=neurons.size()-1;i>0;i--) {
+        for(int j=0;j<neurons[i].size();j++) {
+            if(i==neurons.size()-1) {
+                if(rand.rgb.empty()) {
+                    //std::cout << "error: " << neurons[i][j].getValue() << " " << float(rand.mono) << std::endl;
+                    neurons[i][j].setError(float(neurons[i][j].getValue()-float(rand.mono)));
+                } else {
+                    neurons[i][j].setError(float(neurons[i][j].getValue()-float(rand.rgb[j])));
+                }
+            } else {
+                float eSum = 0;
+                for(int k=0;k<neurons[i+1].size();k++) {
+                    eSum+=neurons[i+1][k].getError()*weights[i][j][k];
+                }
 
+                neurons[i][j].setError(eSum);
+            }
+            //std::cout << "layer: " << i << " neuron: " << j << " error: " << neurons[i][j].getError() << std::endl;
+        }
+    }
 
+    //using learning rate and shit i have no idea why it doesn't work i swear to god, i spent waaaay too much time looking for mistake
+    for(unsigned int i=neurons.size()-1;i>0;i--) {
+        std::cout << "i: " <<  i << std::endl;
+        //std::cout << weights[i-1].size() << std::endl;
+        for(unsigned int j=0;j<neurons[i].size();j++) {
+            for(unsigned int k=0;k<neurons[i-1].size();k++) {
+                //std::cout << "error: " <<  neurons[i][k].getError() << " value: " << neurons[i][k].getValue() << " der: " << activationFuctionDerivative(neurons[i][k].getValue()) << std::endl;
+                weights[i-1][k][j] -= LEARNING_RATE * neurons[i][j].getError() * neurons[i-1][k].getValue() *
+                                    activationFuctionDerivative(neurons[i][j].getValue());
+            }
+        }
+    }
+}
+
+std::vector<float> net::forwardShow(float x, float y) {
+    std::vector<std::vector<neuron>> nCopy = neurons;
+
+    nCopy[0][0].setValue(x);
+    nCopy[0][1].setValue(y);
+
+    for(int i=1;i<nCopy.size();i++) {
+        for(int j=0;j<nCopy[i].size();j++) {
+            float sum = 0;
+            for(int k=0;k<nCopy[i-1].size();k++) {
+                sum+=weights[i-1][k][j]*nCopy[i-1][k].getValue();
+            }
+            nCopy[i][j].setValue(activationFuction(sum));
+        }
+    }
+    //std::cout << nCopy.back()[0].getValue() << " " << nCopy.back()[1].getValue() << " " << nCopy.back()[2].getValue() << std::endl;
+    if(nCopy.back().size()==1) {
+        return {nCopy.back().back().getValue(), nCopy.back().back().getValue(), nCopy.back().back().getValue()};
+    } else {
+        return {nCopy.back()[0].getValue(), nCopy.back()[1].getValue(), nCopy.back()[2].getValue()};
+    }
+}
+
+void net::addInput(float x, float y, int col) {
+    input i{x,y};
+    switch(col) {
+        case 0://red
+            i.rgb = {1,0,0};
+            break;
+        case 1://green
+            i.rgb = {0,1,0};
+            break;
+        case 2://blue
+            i.rgb = {0,0,1};
+            break;
+        case 3://white
+            i.mono = true;
+            break;
+        case 4://black
+            i.mono = false;
+            break;
+        default:
+            break;}
+    inputs.push_back(i);
+}
+
+void net::addOutput(bool o) {
+    outputs.push_back(o);
+}
+
+std::vector<input> net::getInputs() {
+    return inputs;
+}
