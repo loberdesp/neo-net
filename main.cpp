@@ -6,7 +6,8 @@
 int main(int argc, char* argv[]) {
 
     //create net with layers, define input and output values here but ill work it out better way
-    net n({2,3});
+    net n({3,7,3});
+    n.setBiasNeuron(0,0);
 
     float total_error = 0;
 
@@ -79,11 +80,11 @@ int main(int argc, char* argv[]) {
                     if(mouseX>WIDTH/2 && mouseX<WIDTH && mouseY>0 && mouseY<HEIGHT) {
                         float dotX = (mouseX-WIDTH/2)/static_cast<float>(WIDTH/2);
                         float dotY = mouseY/static_cast<float>(HEIGHT);
-                        if(keyboardState[SDL_SCANCODE_1]) {
+                        if(keyboardState[SDL_SCANCODE_R]) {
                             n.addInput(dotX, dotY, 0);
-                        } else if(keyboardState[SDL_SCANCODE_2]) {
+                        } else if(keyboardState[SDL_SCANCODE_G]) {
                             n.addInput(dotX, dotY, 1);
-                        } else if(keyboardState[SDL_SCANCODE_3]) {
+                        } else if(keyboardState[SDL_SCANCODE_B]) {
                             n.addInput(dotX, dotY, 2);
                         } else if(keyboardState[SDL_SCANCODE_Q]) {
                             n.addInput(dotX, dotY, 3);

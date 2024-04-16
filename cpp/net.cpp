@@ -28,7 +28,7 @@ net::net(std::vector<int> l) {
                 std::uniform_int_distribution<int> dis(-100, 100);
                 int randomInt = dis(gen);
                 tmpFloat.push_back(static_cast<float>(randomInt) / 100.0f);
-                std::cout << "layer: " << i << " from neuron " << j << " to neuron " << k << " weight " << static_cast<float>(randomInt) / 100.0f << std::endl;
+                //std::cout << "layer: " << i << " from neuron " << j << " to neuron " << k << " weight " << static_cast<float>(randomInt) / 100.0f << std::endl;
             }
             tmpNeuron.push_back(tmpFloat);
         }
@@ -66,7 +66,7 @@ input net::randomInput() {
     std::uniform_int_distribution<int> dist(0, inputs.size()-1);
 
     for(auto x : weights) {
-        std::cout << x.size() << std::endl;
+        //std::cout << x.size() << std::endl;
     }
     return inputs[dist(mt)];
 
@@ -77,9 +77,9 @@ void net::forwardTrain(input rand) {
     for(int i=0;i<neurons.size();i++) {
         for(int j=0;j<neurons[i].size();j++) {
             if(i==0) {
-                if(j==0) {
+                if(j==1) {
                     neurons[i][j].setValue(rand.x);
-                } else {
+                } else if(j==2) {
                     neurons[i][j].setValue(rand.y);
                 }
             } else {
@@ -118,7 +118,7 @@ void net::backProp(input rand) {
 
     //using learning rate and shit i have no idea why it doesn't work i swear to god, i spent waaaay too much time looking for mistake
     for(unsigned int i=neurons.size()-1;i>0;i--) {
-        std::cout << "i: " <<  i << std::endl;
+        //std::cout << "i: " <<  i << std::endl;
         //std::cout << weights[i-1].size() << std::endl;
         for(unsigned int j=0;j<neurons[i].size();j++) {
             for(unsigned int k=0;k<neurons[i-1].size();k++) {
@@ -133,8 +133,8 @@ void net::backProp(input rand) {
 std::vector<float> net::forwardShow(float x, float y) {
     std::vector<std::vector<neuron>> nCopy = neurons;
 
-    nCopy[0][0].setValue(x);
-    nCopy[0][1].setValue(y);
+    nCopy[0][1].setValue(x);
+    nCopy[0][2].setValue(y);
 
     for(int i=1;i<nCopy.size();i++) {
         for(int j=0;j<nCopy[i].size();j++) {
@@ -182,4 +182,9 @@ void net::addOutput(bool o) {
 
 std::vector<input> net::getInputs() {
     return inputs;
+}
+
+void net::setBiasNeuron(int layer, int neuron) {
+    neurons[layer][neuron].setBias();
+    neurons[layer][neuron].setValue(1);
 }

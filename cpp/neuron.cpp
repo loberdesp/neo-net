@@ -35,3 +35,15 @@ float neuron::getDest() const {
 void neuron::setDest(float dest) {
     destination = dest;
 }
+
+void neuron::setBias() {
+    if(bias){
+        bias = false;
+    } else {
+        bias = true;
+    }
+}
+
+bool neuron::isBias() const {
+    return bias;
+}

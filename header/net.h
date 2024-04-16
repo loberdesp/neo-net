@@ -34,6 +34,7 @@ public:
     void addInput(float x, float y, int col);
     void addOutput(bool o);
     std::vector<input> getInputs();
+    void setBiasNeuron(int layer, int neuron);
 };
 
 
