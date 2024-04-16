@@ -10,6 +10,7 @@ private:
     float value;
     float error;
     float destination;
+    bool bias;
 public:
     neuron(int x, int y);
     int getX() const;
@@ -20,6 +21,8 @@ public:
     void setDest(float dest);
     float getError() const;
     void setError(float e);
+    void setBias();
+    bool isBias() const;
 };
 
 
