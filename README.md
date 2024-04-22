@@ -1,6 +1,6 @@
 Simple example of neural network with bias neurons.
-Inspired by this video:
-[![by KofyBrek](https://img.youtube.com/vi/Zrrnqd0rCXg&t=3s/0.jpg)](https://www.youtube.com/watch?v=Zrrnqd0rCXg&t=3s)
+Inspired by this Kofybrek video about neural networks:
+[LINK](https://www.youtube.com/watch?v=Zrrnqd0rCXg&t=3s)
 
 It takes x and y coordinate of display as inputs and outputs color as 3 separate R,G,B values
 It is drawn on the screen on the right side of network
